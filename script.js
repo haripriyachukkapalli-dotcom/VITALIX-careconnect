@@ -1,81 +1,307 @@
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyB9O6g1Ck-2al1Gn5UI8At4d-GmUltYw6s",
-    authDomain: "vitalix-careconnect.firebaseapp.com",
-    projectId: "vitalix-careconnect",
-    storageBucket: "vitalix-careconnect.firebasestorage.app",
-    messagingSenderId: "563115345786",
-    appId: "1:563115345786:web:d2523ae3e3d95f7bf178c3",
-    measurementId: "G-K5QZRVN5K4"
-};
-
-initializeApp(firebaseConfig);
+// ==========================================
+// VITALIX CareConnect - Main JavaScript
+// ==========================================
 
 
 // Demo OTP
-const TEST_OTP = "123456";
+const DEMO_OTP = "123456";
 
 
-// Temporary login data
-let userEmail = "";
-let userPhone = "";
+// ==========================================
+// LOGIN - SEND OTP
+// ==========================================
 
+function sendOTP() {
 
-// =================================
-// CONTINUE / SEND TEST OTP
-// =================================
+    const email = document.getElementById("email");
+    const phone = document.getElementById("phone");
 
-window.sendOTP = function () {
+    if (!email || !phone) {
+        return;
+    }
 
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
+    const emailValue = email.value.trim();
+    const phoneValue = phone.value.trim();
 
     // Gmail validation
-    if (!email.endsWith("@gmail.com")) {
+    if (!emailValue.endsWith("@gmail.com")) {
+
         alert("Please enter a valid Gmail address.");
+
         return;
     }
+
 
     // Phone validation
-    if (!/^[0-9]{10}$/.test(phone)) {
-        alert("Please enter a valid 10-digit mobile number.");
+    if (!/^[0-9]{10}$/.test(phoneValue)) {
+
+        alert("Please enter a valid 10-digit phone number.");
+
         return;
     }
 
-    userEmail = email;
-    userPhone = phone;
 
     // Save login information
-    localStorage.setItem("vitalixEmail", userEmail);
-    localStorage.setItem("vitalixPhone", userPhone);
-
-    // Show OTP box
-    document.getElementById("otpBox").classList.remove("hidden");
-
-    alert("Your test OTP is: 123456");
-};
+    localStorage.setItem("vitalixEmail", emailValue);
+    localStorage.setItem("vitalixPhone", phoneValue);
 
 
-// =================================
-// VERIFY OTP
-// =================================
+    // Demo OTP
+    alert("Your VITALIX demo OTP is: 123456");
 
-window.verifyOTP = function () {
 
-    const otp = document.getElementById("otp").value.trim();
+    const otpInput = document.getElementById("otp");
 
-    if (otp !== TEST_OTP) {
-        alert("Invalid OTP. Please enter 123456.");
+    if (otpInput) {
+
+        otpInput.focus();
+
+    }
+
+}
+
+
+// ==========================================
+// LOGIN - VERIFY OTP
+// ==========================================
+
+function verifyOTP() {
+
+    const otpInput = document.getElementById("otp");
+
+    if (!otpInput) {
         return;
     }
 
-    // Login successful
-    localStorage.setItem("vitalixLoggedIn", "true");
+    const enteredOTP = otpInput.value.trim();
 
-    alert("OTP verified successfully!");
 
-    // Go to patient details
-    window.location.href = "patient-details.html";
-};
+    if (enteredOTP === DEMO_OTP) {
+
+        alert("OTP verified successfully!");
+
+
+        // Save login status
+        localStorage.setItem(
+            "vitalixLoggedIn",
+            "true"
+        );
+
+
+        // Go to patient details
+        window.location.href = "patient-details.html";
+
+    } else {
+
+        alert("Incorrect OTP. Please enter the correct OTP.");
+
+    }
+
+}
+
+
+// ==========================================
+// PATIENT DETAILS
+// ==========================================
+
+const patientForm =
+    document.getElementById("patientForm");
+
+
+if (patientForm) {
+
+    patientForm.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+
+            const fullName =
+                document.getElementById("fullName").value.trim();
+
+            const dob =
+                document.getElementById("dob").value;
+
+            const gender =
+                document.getElementById("gender").value;
+
+            const bloodGroup =
+                document.getElementById("bloodGroup").value;
+
+            const city =
+                document.getElementById("city").value.trim();
+
+            const emergencyContact =
+                document
+                    .getElementById("emergencyContact")
+                    .value.trim();
+
+
+            // Basic validation
+            if (
+                !fullName ||
+                !dob ||
+                !gender ||
+                !bloodGroup ||
+                !city ||
+                !/^[0-9]{10}$/.test(emergencyContact)
+            ) {
+
+                alert(
+                    "Please enter all details correctly."
+                );
+
+                return;
+            }
+
+
+            // Save patient information
+            const patientData = {
+
+                fullName: fullName,
+
+                dob: dob,
+
+                gender: gender,
+
+                bloodGroup: bloodGroup,
+
+                city: city,
+
+                emergencyContact: emergencyContact
+
+            };
+
+
+            localStorage.setItem(
+                "vitalixPatient",
+                JSON.stringify(patientData)
+            );
+
+
+            alert(
+                "Patient details saved successfully!"
+            );
+
+
+            // Open dashboard
+            window.location.href =
+                "dashboard.html";
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// DASHBOARD - DISPLAY PATIENT NAME
+// ==========================================
+
+const patientNameElement =
+    document.getElementById("patientName");
+
+
+if (patientNameElement) {
+
+    const savedPatient =
+        localStorage.getItem("vitalixPatient");
+
+
+    if (savedPatient) {
+
+        const patientData =
+            JSON.parse(savedPatient);
+
+
+        patientNameElement.textContent =
+            patientData.fullName;
+
+    }
+
+}
+
+
+// ==========================================
+// DASHBOARD - SERVICE BUTTONS
+// ==========================================
+
+function showMessage(serviceName) {
+
+    alert(
+        serviceName +
+        " section will be available soon."
+    );
+
+}
+
+
+// ==========================================
+// LOGOUT
+// ==========================================
+
+function logoutUser() {
+
+    const confirmLogout =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+
+    if (confirmLogout) {
+
+        localStorage.removeItem(
+            "vitalixLoggedIn"
+        );
+
+        localStorage.removeItem(
+            "vitalixEmail"
+        );
+
+        localStorage.removeItem(
+            "vitalixPhone"
+        );
+
+        localStorage.removeItem(
+            "vitalixPatient"
+        );
+
+
+        window.location.href =
+            "index.html";
+
+    }
+
+}
+
+
+// ==========================================
+// AUTO LOGIN CHECK
+// ==========================================
+
+function checkLogin() {
+
+    const loggedIn =
+        localStorage.getItem("vitalixLoggedIn");
+
+
+    const currentPage =
+        window.location.pathname;
+
+
+    if (
+        currentPage.includes("dashboard.html") &&
+        loggedIn !== "true"
+    ) {
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+
+// Run login check
+checkLogin();
