@@ -1,5 +1,3 @@
-ic
-
 window.sendOTP = async function () {
 
     const phone = document
