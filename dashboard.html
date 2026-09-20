@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard - VITALIX</title><link rel="stylesheet" href="style.css"></head>
+<body><main class="page"><header class="topbar"><div><div class="brand">VITALIX</div><small>Smart Healthcare. Connected Care.</small></div><a href="index.html">Logout</a></header>
+<section class="welcome-strip"><h1 id="welcomeName">Welcome 👋</h1><p>Everything you need for your care journey, in one place.</p></section>
+<section class="grid">
+<a class="feature" href="hospitals.html"><b>🏥 Nearby Hospitals</b><span>Locations & departments</span></a>
+<a class="feature" href="doctors.html"><b>👨‍⚕️ Doctors</b><span>Specialties & demo availability</span></a>
+<a class="feature" href="beds.html"><b>🛏️ Bed Availability</b><span>General, ICU & emergency</span></a>
+<a class="feature" href="appointments.html"><b>📅 Appointments</b><span>Book up to 10 days ahead</span></a>
+<a class="feature" href="cost.html"><b>💰 Cost Estimate</b><span>Demo treatment estimates</span></a>
+<a class="feature" href="consultation.html"><b>💻 Online Consultation</b><span>Request a demo consultation</span></a>
+<a class="feature emergency" href="emergency.html"><b>🚑 Emergency</b><span>Emergency guidance & request flow</span></a>
+<div class="feature"><b>💊 Medicines</b><span>Demo prescription list</span></div>
+<div class="feature"><b>🍱 Food Requirements</b><span>Diet notes for care teams</span></div>
+<div class="feature"><b>📄 Bills & Records</b><span>Demo patient information</span></div>
+</section>
+<p class="notice">Prototype notice: hospital, doctor and bed information shown here is simulated demo data, not live hospital availability.</p>
+</main><script>
+const p=JSON.parse(localStorage.getItem('vitalixPatient')||'{}');
+document.getElementById('welcomeName').textContent='Welcome, '+(p.name||'Patient')+' 👋';
+</script></body></html>

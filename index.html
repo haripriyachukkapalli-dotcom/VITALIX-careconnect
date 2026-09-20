@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VITALIX CareConnect</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="welcome">
+    <section class="hero-card">
+      <div class="logo">V</div>
+      <p class="eyebrow">VITALIX</p>
+      <h1>Smart Healthcare.<br>Connected Care.</h1>
+      <p class="muted">Find hospitals, doctors, beds, appointments and care information in one place.</p>
+
+      <div class="login-card">
+        <h2>Patient Login</h2>
+        <label>Mobile number</label>
+        <input id="phone" type="tel" maxlength="10" placeholder="Enter 10-digit mobile number">
+        <button onclick="sendOTP()">Send OTP</button>
+
+        <div id="otpBox" class="hidden">
+          <label>Demo OTP</label>
+          <input id="otp" type="text" maxlength="4" placeholder="Enter 1234">
+          <button onclick="verifyOTP()">Verify & Continue</button>
+          <small>Prototype only: use OTP <b>1234</b>.</small>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

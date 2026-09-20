@@ -1,0 +1,7 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Appointments - VITALIX</title><link rel="stylesheet" href="style.css"></head>
+<body><main class="page"><header class="topbar"><a href="dashboard.html">← Dashboard</a><div class="brand">Appointments</div></header>
+<section class="card form-card"><h1>Book Appointment</h1><label>Department</label><select id="dept"><option>General Medicine</option><option>Cardiology</option><option>Pediatrics</option></select>
+<label>Date</label><input id="date" type="date"><label>Preferred time</label><select><option>10:00 AM</option><option>12:00 PM</option><option>4:00 PM</option></select>
+<button onclick="bookAppointment()">Confirm Demo Appointment</button><p id="apptResult" class="success"></p></section></main>
+<script>function bookAppointment(){document.getElementById('apptResult').textContent='Demo appointment request saved locally.'}</script></body></html>
