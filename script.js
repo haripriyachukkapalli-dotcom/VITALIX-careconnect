@@ -2,8 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebas
 
 import {
     getAuth,
-    RecaptchaVerifier,
-    signInWithPhoneNumber
+    signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 import {
@@ -12,10 +11,6 @@ import {
     setDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-
-// ===============================
-// FIREBASE CONFIG
-// ===============================
 
 const firebaseConfig = {
     apiKey: "AIzaSyB9O6g1Ck-2al1Gn5UI8At4d-GmUltYw6s",
@@ -27,106 +22,47 @@ const firebaseConfig = {
     measurementId: "G-K5QZRVN5K4"
 };
 
-
-// ===============================
-// INITIALIZE FIREBASE
-// ===============================
-
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
-
 const db = getFirestore(app);
 
 
-// ===============================
-// OTP VARIABLES
-// ===============================
+// Test OTP
+const TEST_OTP = "123456";
 
-let confirmationResult = null;
-
-let recaptchaVerifier = null;
+let userEmail = "";
+let userPhone = "";
 
 
 // ===============================
 // SEND OTP
 // ===============================
 
-window.sendOTP = async function () {
+window.sendOTP = function () {
 
-    const phone = document
-        .getElementById("phone")
-        .value
-        .trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
 
-
-    // Check 10-digit mobile number
-
-    if (!/^[0-9]{10}$/.test(phone)) {
-
-        alert("Please enter a valid 10-digit mobile number.");
-
+    // Check Gmail
+    if (!email.endsWith("@gmail.com")) {
+        alert("Please enter a valid Gmail address.");
         return;
     }
 
-
-    const phoneNumber = "+91" + phone;
-
-
-    try {
-
-        // Create reCAPTCHA only once
-
-        if (!recaptchaVerifier) {
-
-            recaptchaVerifier = new RecaptchaVerifier(
-                auth,
-                "recaptcha-container",
-                {
-                    size: "invisible"
-                }
-            );
-        }
-
-
-        // Send OTP
-
-        confirmationResult = await signInWithPhoneNumber(
-            auth,
-            phoneNumber,
-            recaptchaVerifier
-        );
-
-
-        // Show OTP box
-
-        document
-            .getElementById("otpBox")
-            .classList
-            .remove("hidden");
-
-
-        alert("OTP sent successfully to your mobile number.");
-
-
-    } catch (error) {
-
-        console.error("OTP Error:", error);
-
-        alert(
-            "OTP could not be sent. Please check the mobile number and try again."
-        );
-
-
-        // Reset reCAPTCHA
-
-        if (recaptchaVerifier) {
-
-            recaptchaVerifier.clear();
-
-            recaptchaVerifier = null;
-        }
+    // Check phone
+    if (!/^[0-9]{10}$/.test(phone)) {
+        alert("Please enter a valid 10-digit mobile number.");
+        return;
     }
+
+    userEmail = email;
+    userPhone = phone;
+
+    // Show OTP box
+    document.getElementById("otpBox").classList.remove("hidden");
+
+    alert("Test OTP generated successfully.\n\nYour OTP is: 123456");
 };
 
 
@@ -136,150 +72,44 @@ window.sendOTP = async function () {
 
 window.verifyOTP = async function () {
 
-    const otp = document
-        .getElementById("otp")
-        .value
-        .trim();
+    const otp = document.getElementById("otp").value.trim();
 
-
-    // Check OTP
-
-    if (!otp) {
-
-        alert("Please enter the OTP.");
-
+    if (otp !== TEST_OTP) {
+        alert("Invalid OTP. Please enter 123456.");
         return;
     }
-
-
-    // Check confirmation result
-
-    if (!confirmationResult) {
-
-        alert("Please request OTP first.");
-
-        return;
-    }
-
 
     try {
 
-        // Verify OTP
+        // Save login information
+        localStorage.setItem("vitalixEmail", userEmail);
+        localStorage.setItem("vitalixPhone", userPhone);
 
-        await confirmationResult.confirm(otp);
-
-
-        alert("Mobile number verified successfully.");
-
-
-        // Go to patient details page
-
-        window.location.href = "patient-details.html";
-
-
-    } catch (error) {
-
-        console.error("OTP Verification Error:", error);
-
-        alert("Invalid OTP. Please enter the correct OTP.");
-    }
-};
-
-
-// ===============================
-// SAVE PATIENT
-// ===============================
-
-window.savePatient = async function () {
-
-    const patient = {
-
-        name: document
-            .getElementById("name")
-            .value
-            .trim(),
-
-        age: document
-            .getElementById("age")
-            .value,
-
-        gender: document
-            .getElementById("gender")
-            .value,
-
-        city: document
-            .getElementById("city")
-            .value
-            .trim(),
-
-        concern: document
-            .getElementById("concern")
-            .value
-            .trim()
-    };
-
-
-    // ===============================
-    // BASIC VALIDATION
-    // ===============================
-
-    if (
-        !patient.name ||
-        !patient.age ||
-        !patient.city
-    ) {
-
-        alert("Please fill name, age and city.");
-
-        return;
-    }
-
-
-    // ===============================
-    // CURRENT FIREBASE USER
-    // ===============================
-
-    const user = auth.currentUser;
-
-
-    if (!user) {
-
-        alert("Please verify your mobile number first.");
-
-        return;
-    }
-
-
-    try {
-
-        // ===============================
-        // SAVE PATIENT TO FIRESTORE
-        // ===============================
+        // Save patient login data to Firestore
+        const patientId = userPhone;
 
         await setDoc(
-            doc(db, "patients", user.uid),
+            doc(db, "patients", patientId),
             {
-                ...patient,
-
-                phone: user.phoneNumber,
-
+                email: userEmail,
+                phone: userPhone,
+                loginType: "Gmail + Phone",
                 createdAt: new Date().toISOString()
-            }
+            },
+            { merge: true }
         );
 
+        alert("OTP verified successfully!");
 
-        alert("Patient details saved successfully.");
-
-
-        // Go to dashboard
-
-        window.location.href = "dashboard.html";
-
+        // Go to patient details
+        window.location.href = "patient-details.html";
 
     } catch (error) {
 
-        console.error("Firestore Error:", error);
+        console.error("Login Error:", error);
 
-        alert("Unable to save patient details.");
+        alert(
+            "Login verified, but patient data could not be saved."
+        );
     }
 };
