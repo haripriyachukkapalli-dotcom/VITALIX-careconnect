@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>VITALIX CareConnect</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
   <main class="welcome">
+
     <section class="hero-card">
 
       <div class="logo">V</div>
 
       <p class="eyebrow">VITALIX</p>
 
-      <h1>Smart Healthcare.<br>Connected Care.</h1>
+      <h1>
+        Smart Healthcare.<br>
+        Connected Care.
+      </h1>
 
       <p class="muted">
         Find hospitals, doctors, beds, appointments and care information in one place.
@@ -26,7 +33,7 @@
 
         <h2>Patient Login</h2>
 
-        <label>Mobile number</label>
+        <label for="phone">Mobile number</label>
 
         <input
           id="phone"
@@ -43,7 +50,7 @@
 
         <div id="otpBox" class="hidden">
 
-          <label>OTP</label>
+          <label for="otp">OTP</label>
 
           <input
             id="otp"
@@ -53,7 +60,7 @@
           >
 
           <button type="button" onclick="verifyOTP()">
-            Verify & Continue
+            Verify &amp; Continue
           </button>
 
         </div>
@@ -61,8 +68,10 @@
       </div>
 
     </section>
+
   </main>
 
+  <!-- Load script.js only once -->
   <script type="module" src="script.js"></script>
 
 </body>
