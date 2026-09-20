@@ -1,92 +1,48 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>VITALIX CareConnect</title>
-
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VITALIX CareConnect</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-  <main class="welcome">
-
-    <section class="hero-card">
-
-      <div class="logo">V</div>
-
-      <p class="eyebrow">VITALIX</p>
-
-      <h1>
-        Smart Healthcare.<br>
-        Connected Care.
-      </h1>
-
-      <p class="muted">
-        Find hospitals, doctors, beds, appointments and care information in one place.
-      </p>
-
-      <div class="login-card">
-
-        <h2>Patient Login</h2>
-
-        <!-- Gmail -->
-        <label for="email">Gmail</label>
-
-        <input
-          id="email"
-          type="email"
-          placeholder="Enter your Gmail address"
-          autocomplete="email"
-        >
-
-        <!-- Phone -->
-        <label for="phone">Mobile Number</label>
-
-        <input
-          id="phone"
-          type="tel"
-          maxlength="10"
-          placeholder="Enter 10-digit mobile number"
-          autocomplete="tel"
-        >
-
-        <button type="button" onclick="sendOTP()">
-          Continue
-        </button>
-
-        <!-- OTP -->
-        <div id="otpBox" class="hidden">
-
-          <p class="otp-message">
-            Enter the OTP sent to your phone
-          </p>
-
-          <label for="otp">OTP</label>
-
-          <input
-            id="otp"
-            type="text"
-            maxlength="6"
-            inputmode="numeric"
-            placeholder="Enter 6-digit OTP"
-          >
-
-          <button type="button" onclick="verifyOTP()">
-            Verify &amp; Continue
-          </button>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
-
-  <script type="module" src="script.js"></script>
-
+<header class="header">
+    <div class="logo-area"><div class="logo">V</div><div><h2>VITALIX</h2><span>CareConnect</span></div></div>
+    <a href="login.html" class="login-btn">Login</a>
+</header>
+<main class="hero">
+<section class="hero-content">
+<p class="tagline">SMART HEALTHCARE • CONNECTED CARE</p>
+<h1>Healthcare made<br><span>simple & connected.</span></h1>
+<p class="description">VITALIX CareConnect helps patients find hospitals, check doctor availability, manage appointments, view bed availability and access essential healthcare information in one place.</p>
+<div class="hero-buttons">
+<a href="login.html" class="primary-btn">Get Started →</a>
+<a href="#features" class="secondary-btn">Explore Features</a>
+</div>
+</section>
+<section class="hero-card">
+<div class="medical-icon">+</div>
+<h2>Connected<br>Healthcare</h2>
+<p>Appointments • Doctors • Beds • Hospitals</p>
+<div class="mini-status">
+<div><strong>24/7</strong><span>Access</span></div>
+<div><strong>Live</strong><span>Updates</span></div>
+<div><strong>Easy</strong><span>Booking</span></div>
+</div>
+</section>
+</main>
+<section id="features" class="features">
+<div class="section-title"><p>WHAT VITALIX OFFERS</p><h2>Everything patients need, in one place.</h2></div>
+<div class="feature-grid">
+<div class="feature-card"><div class="feature-icon">📅</div><h3>Appointments</h3><p>Find doctors and choose available appointment slots easily.</p></div>
+<div class="feature-card"><div class="feature-icon">👨‍⚕️</div><h3>Doctor Availability</h3><p>Check doctor schedules and available consultation timings.</p></div>
+<div class="feature-card"><div class="feature-icon">🏥</div><h3>Hospitals</h3><p>Explore hospitals and compare available healthcare services.</p></div>
+<div class="feature-card"><div class="feature-icon">🛏️</div><h3>Bed Availability</h3><p>View sample ICU, emergency and general bed availability.</p></div>
+<div class="feature-card"><div class="feature-icon">🍱</div><h3>Patient Food</h3><p>View hospital-approved patient meal options and ratings.</p></div>
+<div class="feature-card"><div class="feature-icon">👨‍👩‍👧‍👦</div><h3>Family Members</h3><p>Manage multiple family members from one account.</p></div>
+</div>
+</section>
+<footer class="footer"><div><strong>VITALIX CareConnect</strong><p>Smart healthcare • Connected care</p></div><p>© 2026 VITALIX CareConnect</p></footer>
 </body>
 </html>
